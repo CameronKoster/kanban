@@ -1,5 +1,6 @@
 let router = require('express').Router()
-let Lists = require('../models/List')
+let Lists = require('../models/list')
+let Boards = require('../routes/board')
 
 //GET
 router.get('/', (req, res, next) => {
@@ -16,14 +17,16 @@ router.get('/', (req, res, next) => {
 //POST
 router.post('/', (req, res, next) => {
   req.body.authorId = req.session.uid
-  Lists.create(req.body)
-    .then(newList => {
-      res.send(newList)
-    })
-    .catch(err => {
-      console.log(err)
-      next()
-    })
+  Boards.findById()
+  req.body.boardId =
+    Lists.create(req.body)
+      .then(newList => {
+        res.send(newList)
+      })
+      .catch(err => {
+        console.log(err)
+        next()
+      })
 })
 
 //PUT

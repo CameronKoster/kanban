@@ -6,8 +6,6 @@ let schemaName = 'Board'
 let Lists = require('./list')
 let Tasks = require('./task')
 
-
-
 let schema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },

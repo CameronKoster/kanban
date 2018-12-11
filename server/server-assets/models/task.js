@@ -3,8 +3,6 @@ let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
 let schemaName = 'Task'
 
-let Tasks = require('../routes/task-routes')
-
 let comment = new Schema({
   authorId: { type: ObjectId, ref: 'User', required: true },
   description: { type: String, required: true },
