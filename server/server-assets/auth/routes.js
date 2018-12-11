@@ -24,6 +24,7 @@ router.post('/auth/register', (req, res) => {
       delete user._doc.password
       //SET THE SESSION UID (SHORT FOR USERID)
       req.session.uid = user._id
+      req.session.name = user.name
       res.send(user)
     })
     .catch(err => {
@@ -46,6 +47,7 @@ router.post('/auth/login', (req, res) => {
       }
       //ALWAYS REMOVE THE PASSWORD FROM THE USER OBJECT
       delete user._doc.password
+      req.session.name = user.name
       req.session.uid = user._id
       res.send(user)
     }).catch(err => {
