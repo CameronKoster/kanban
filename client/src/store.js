@@ -34,7 +34,7 @@ function dictionary(lists) {
 }
 function tDictionary(tasks) {
   let taskDictionary = {}
-  debugger
+
   for (let i = 0; i < tasks.length; i++) {
     let listId = tasks[i].listId
     if (!taskDictionary[listId]) {
@@ -70,6 +70,7 @@ export default new Vuex.Store({
       // state.tasks = tDictionary(tasks)
       Vue.set(state, 'tasks', tDictionary(tasks))
       console.log(state.tasks)
+      debugger
     }
   },
   actions: {
@@ -124,8 +125,8 @@ export default new Vuex.Store({
     },
 
     //LISTS
-    getLists({ commit, dispatch }) {
-      api.get('lists')
+    getLists({ commit, dispatch }, boardId) {
+      api.get('boards/' + boardId + '/lists')
         .then(res => {
           commit('setLists', res.data)
         })
@@ -147,6 +148,7 @@ export default new Vuex.Store({
     },
     //Tasks
     getTasks({ commit, dispatch }) {
+      // debugger
       api.get('tasks')
         .then(res => {
           commit('setTasks', res.data)
@@ -177,11 +179,18 @@ export default new Vuex.Store({
           dispatch('getTasks')
         })
     },
-    deleteComment({ commit, dispatch }, taskId) {
-      api.delete('comments/' + taskId)
+    deleteComment({ commit, dispatch }, payload) {
+      api.delete('tasks/' + payload.taskId + '/comments/' + payload.commentId)
         .then(res => {
           dispatch('getTasks')
         })
     },
+    //moving tasks
+    moveTask({ commit, dispatch }, payload) {
+      api.put('tasks/' + payload.task._id, { listId: payload.newListId })
+        .then(res => {
+          dispatch('getTasks')
+        })
+    }
   }
 })

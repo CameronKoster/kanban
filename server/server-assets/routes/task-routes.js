@@ -13,6 +13,7 @@ router.get('/', (req, res, next) => {
     })
 })
 
+
 //POST
 router.post('/', (req, res, next) => {
   req.body.authorId = req.session.uid
@@ -101,11 +102,13 @@ router.delete('/:id', (req, res, next) => {
     })
 })
 
-router.delete('/comments/:taskId/:commentId', (req, res, next) => {
+router.delete('/:taskId/comments/:commentId', (req, res, next) => {
   Tasks.findById({ _id: req.params.taskId, authorId: req.session.uid })
     .then(task => {
-      task.comments.findOneAndRemove({ _id: req.params.commentId })
-      res.send(task)
+      let comment = task.comments.id(req.params.commentId)
+      if (comment) {
+        comment.remove()
+      }
       task.save(err => {
         if (err) {
           return next(err)
