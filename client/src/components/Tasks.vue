@@ -4,8 +4,10 @@
 
 <script>
   export default {
-    name: 'List'
+    name: 'Tasks',
+
   }
+
 </script>
 
 <style scoped>

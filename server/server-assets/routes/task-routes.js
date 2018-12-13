@@ -27,7 +27,9 @@ router.post('/', (req, res, next) => {
     })
 })
 
-router.post('/comments/:taskId', (req, res, next) => {
+
+//tasks/:taskId/comments
+router.post('/:taskId/comments', (req, res, next) => {
   let newComment = {
     authorId: req.session.uid,
     name: req.session.name,

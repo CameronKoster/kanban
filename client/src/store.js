@@ -13,16 +13,47 @@ let auth = Axios.create({
 
 let api = Axios.create({
   baseURL: "//localhost:3000/api/",
-  timeout: 3000,
+  timeout: 30000,
   withCredentials: true
 })
+
+//boardid needs to be key
+
+
+function dictionary(lists) {
+  let listDictionary = {}
+  for (let i = 0; i < lists.length; i++) {
+    let boardId = lists[i].boardId
+    if (!listDictionary[boardId]) {
+      listDictionary[boardId] = [lists[i]]
+    } else {
+      listDictionary[boardId].push(lists[i])
+    }
+  }
+  return listDictionary
+}
+function tDictionary(tasks) {
+  let taskDictionary = {}
+  debugger
+  for (let i = 0; i < tasks.length; i++) {
+    let listId = tasks[i].listId
+    if (!taskDictionary[listId]) {
+      taskDictionary[listId] = [tasks[i]]
+    } else {
+      taskDictionary[listId].push(tasks[i])
+    }
+  }
+  return taskDictionary
+}
 
 export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
     activeBoard: {},
-    lists: []
+    lists: {},
+    tasks: {}
+
   },
   mutations: {
     setUser(state, user) {
@@ -32,8 +63,13 @@ export default new Vuex.Store({
       state.boards = boards
     },
     setLists(state, lists) {
-      state.lists = lists
+      state.lists = dictionary(lists)
       console.log(state.lists)
+    },
+    setTasks(state, tasks) {
+      // state.tasks = tDictionary(tasks)
+      Vue.set(state, 'tasks', tDictionary(tasks))
+      console.log(state.tasks)
     }
   },
   actions: {
@@ -105,7 +141,47 @@ export default new Vuex.Store({
         .then(res => {
           dispatch('getLists')
         })
-    }
-
+    },
+    switchPage({ commit }, listId) {
+      router.push({ name: 'List' })
+    },
+    //Tasks
+    getTasks({ commit, dispatch }) {
+      api.get('tasks')
+        .then(res => {
+          commit('setTasks', res.data)
+        })
+    },
+    addTask({ commit, dispatch }, taskData) {
+      api.post('tasks', taskData)
+        .then(serverTasks => {
+          dispatch('getTasks')
+        })
+    },
+    deleteTask({ commit, dispatch }, taskId) {
+      api.delete('tasks/' + taskId)
+        .then(res => {
+          dispatch('getTasks')
+        })
+    },
+    //Comments
+    // getComments({ commit, dispatch }) {
+    //   api.get('comments')
+    //     .then(res => {
+    //       commit('setComments', res.data)
+    //     })
+    // },
+    addComment({ commit, dispatch }, commentData) {
+      api.post('tasks/' + commentData.taskId + '/comments', commentData.data)
+        .then(serverComments => {
+          dispatch('getTasks')
+        })
+    },
+    deleteComment({ commit, dispatch }, taskId) {
+      api.delete('comments/' + taskId)
+        .then(res => {
+          dispatch('getTasks')
+        })
+    },
   }
 })

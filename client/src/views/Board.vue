@@ -1,6 +1,8 @@
 <template>
   <div class="board">
-    <List :boardId="boardId"></List>
+    <h1>{{board.title}}</h1>
+    <!-- <Lists :boardId="boardId"></Lists> -->
+    <List v-for="list in lists" :listData="list"></List>
   </div>
 </template>
 
@@ -12,6 +14,9 @@
       //blocks users not logged in
       if (!this.$store.state.user._id) {
         this.$router.push({ name: "login" });
+      } else {
+        this.$store.dispatch("getLists");
+        this.$store.dispatch('getTasks');
       }
     },
     props: ["boardId"],
@@ -21,6 +26,12 @@
       }
     },
     computed: {
+      lists() {
+        return this.$store.state.lists[this.boardId]
+      },
+      board() {
+        return this.$store.state.boards.find(b => b._id == this.boardId)
+      }
     },
     methods: {},
     components: {
