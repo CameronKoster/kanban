@@ -14,7 +14,7 @@ var corsOptions = {
 };
 server.use(cors(corsOptions))
 
-server.use(express.static(__dirname + '../client/dist'))
+server.use(express.static(__dirname + '/../client/dist'))
 
 //Fire up database connection
 require('./server-assets/db/mlab-config')
