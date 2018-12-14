@@ -3,9 +3,17 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-9"></div>
-      <router-link :to="{name: 'boards'}">
-        <button type="button" class="btn btn-primary menu-buttons">Home</button></router-link>
-      <button type="button" @click="logout" class="btn btn-primary menu-buttons">Logout</button>
+      <div class="col-6 menu-buttons">
+        <router-link :to="{name: 'boards'}">
+          <button type="button" class="btn btn-primary menu-buttons">Home</button></router-link>
+        <button type="button" @click="logout" class="btn btn-primary menu-buttons">Logout</button>
+      </div>
+      <div class="col-6 list-form">
+        <form @submit.prevent="addList">
+          <input type="text" placeholder="List Title" v-model="newList.title" required>
+          <button type="submit" class="btn btn-primary">Add List</button>
+        </form>
+      </div>
     </div>
     <div class="row board-title">
       <div class="col-12">
@@ -15,12 +23,6 @@
     <!-- <Lists :boardId="boardId"></Lists> -->
     <div class="row">
       <List v-for="list in lists " :listData="list"></List>
-    </div>
-    <div class="row add-list">
-      <form @submit.prevent="addList">
-        <input type="text" placeholder="List Title" v-model="newList.title" required>
-        <button type="submit" class="btn btn-primary">Add List</button>
-      </form>
     </div>
   </div>
 </template>
@@ -81,7 +83,15 @@
   }
 
   .menu-buttons {
-    margin-left: 5px;
+    /* margin-left: 5px; */
+    display: flex;
     margin-top: 5px;
+    justify-content: start;
+  }
+
+  .list-form {
+    display: flex;
+    margin-top: 5px;
+    justify-content: flex-end;
   }
 </style>

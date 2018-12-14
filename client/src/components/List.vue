@@ -2,7 +2,9 @@
   <div class="col-4 card-stuff">
     <div class="List card text-white bg-primary mb-3" style="max-width: 20rem; padding: 0">
       <!-- <div class="card"> -->
-      <div class="card-header header-border">{{listData.title}}</div>
+      <div class="card-header header-border">
+        <h3>{{listData.title}}</h3>
+      </div>
       <form @submit.prevent="addTask">
         <input type="text" placeholder="Create Task" v-model="newTask.title" required>
         <button type="submit">Create Task</button>
@@ -21,7 +23,7 @@
             <p v-for="comment in task.comments" class="card-text comment-text">- {{comment.description}} <i @click="deleteComment(task._id, comment._id)"
                 class="fas fa-trash-alt cursorHand"></i></p>
             <form @submit.prevent="addComment(task._id)">
-              <input type="text" placeholder="Add Comment" v-model="newComment.description" required>
+              <input type="text" placeholder="Add Comment" v-model="description" required>
               <button type="submit" class="btn btn-primary">Add Comment</button>
             </form>
           </ul>
@@ -74,9 +76,6 @@
           boardId: this.$route.params.boardId,
           listId: this.listData._id
         },
-        newComment: {
-          description: ''
-        },
         newListId: ''
       };
     },
@@ -102,7 +101,7 @@
       },
       addComment(taskId) {
         debugger
-        this.$store.dispatch("addComment", { taskId, data: this.newComment })
+        this.$store.dispatch("addComment", { taskId, data: { description: this.description } })
       },
       deleteComment(taskId, commentId) {
         this.$store.dispatch('deleteComment', { taskId, commentId })
@@ -137,5 +136,6 @@
   .comment-text {
     display: flex;
     justify-content: start;
+    text-align: left;
   }
 </style>
