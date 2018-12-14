@@ -14,6 +14,8 @@ var corsOptions = {
 };
 server.use(cors(corsOptions))
 
+server.use(express.static(__dirname + '../client/dist'))
+
 //Fire up database connection
 require('./server-assets/db/mlab-config')
 
@@ -50,7 +52,6 @@ server.use('/api/lists', listRoutes)
 let taskRoutes = require('./server-assets/routes/task-routes')
 server.use('/api/tasks', taskRoutes)
 
-server.use(express.static(__dirname + '../client/dist'))
 
 
 
