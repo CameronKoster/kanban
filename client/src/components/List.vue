@@ -1,26 +1,30 @@
 <template>
-  <div class=" col-4">
+  <div class="col-4 card-stuff">
     <div class="List card text-white bg-primary mb-3" style="max-width: 20rem; padding: 0">
       <!-- <div class="card"> -->
       <div class="card-header header-border">{{listData.title}}</div>
       <form @submit.prevent="addTask">
-        <input type="text" placeholder="title" v-model="newTask.title" required>
+        <input type="text" placeholder="Create Task" v-model="newTask.title" required>
         <button type="submit">Create Task</button>
       </form>
       <div class="card-body">
         <div div v-for="task in tasks" :key="task._id">
-          <!-- <div class="card-header">{{listData.title}} <i @click="deleteList(listData._id)" class="fas fa-trash-alt cursorHand"></i></div> -->
-          <h4 class="card-title">{{task.title}} <i @click="deleteTask(task._id)" class="fas fa-trash-alt cursorHand"></i><select
-              @change="moveTask(task)" v-model="newListId">
-              <option value="" disabled selected>Move to another list</option>
-              <option v-for="list in lists" :value="list._id">{{list.title}}</option>
-            </select></h4>
-          <p v-for="comment in task.comments" class="card-text">{{comment.description}} <i @click="deleteComment(task._id, comment._id)"
-              class="fas fa-trash-alt cursorHand"></i></p>
-          <form @submit.prevent="addComment(task._id)">
-            <input type="text" placeholder="description" v-model="newComment.description" required>
-            <button type="submit" class="btn btn-primary">Add Comment</button>
-          </form>
+          <ul>
+            <!-- <div class="card-header">{{listData.title}} <i @click="deleteList(listData._id)" class="fas fa-trash-alt cursorHand"></i></div> -->
+            <li>
+              <h4 class="card-title">{{task.title}} <i @click="deleteTask(task._id)" class="fas fa-trash-alt cursorHand"></i>
+                <select @change="moveTask(task)" v-model="newListId">
+                  <option value="" disabled selected>Move to another list</option>
+                  <option v-for="list in lists" :value="list._id">{{list.title}}</option>
+                </select></h4>
+            </li>
+            <p v-for="comment in task.comments" class="card-text comment-text">- {{comment.description}} <i @click="deleteComment(task._id, comment._id)"
+                class="fas fa-trash-alt cursorHand"></i></p>
+            <form @submit.prevent="addComment(task._id)">
+              <input type="text" placeholder="Add Comment" v-model="newComment.description" required>
+              <button type="submit" class="btn btn-primary">Add Comment</button>
+            </form>
+          </ul>
         </div>
         <!-- </div> -->
       </div>
@@ -121,7 +125,17 @@
     cursor: pointer;
   }
 
-  .header-border {
-    border: 2px red solid;
+  .card-stuff {
+    display: flex;
+    justify-content: center;
+  }
+
+  ul {
+    padding-left: 012px;
+  }
+
+  .comment-text {
+    display: flex;
+    justify-content: start;
   }
 </style>

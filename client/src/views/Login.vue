@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login bg-login">
     <form v-if="loginForm" @submit.prevent="loginUser">
       <input type="email" v-model="creds.email" placeholder="email">
       <input type="password" v-model="creds.password" placeholder="password">
@@ -49,5 +49,14 @@
 <style>
   .action {
     cursor: pointer;
+  }
+
+  .bg-login {
+    background-image: url("C:/Users/blasp/source/codeworks/kanban-checkpoint/kanban-chekpoint/client/src/assets/black_binder_jpeg.jpg");
+    height: 100vh;
+    background-attachment: fixed;
+    /* background-position: center; */
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 </style>
