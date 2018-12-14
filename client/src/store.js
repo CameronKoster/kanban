@@ -9,7 +9,7 @@ let production = !window.location.host.includes('localhost')
 let baseUrl = production ? 'https://notebook-kanban.herokuapp.com/' : '//localhost:3000'
 
 let auth = Axios.create({
-  baseURL: baseUrl + "api/",
+  baseURL: baseUrl + "auth/",
   timeout: 3000,
   withCredentials: true
 })
