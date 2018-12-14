@@ -70,7 +70,6 @@ export default new Vuex.Store({
       // state.tasks = tDictionary(tasks)
       Vue.set(state, 'tasks', tDictionary(tasks))
       console.log(state.tasks)
-      debugger
     }
   },
   actions: {
