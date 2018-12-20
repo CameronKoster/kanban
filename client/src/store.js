@@ -16,7 +16,7 @@ let auth = Axios.create({
 
 let api = Axios.create({
   baseURL: baseUrl + "api/",
-  timeout: 30000,
+  timeout: 3000,
   withCredentials: true
 })
 
